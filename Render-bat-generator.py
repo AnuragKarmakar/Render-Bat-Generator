@@ -11,6 +11,7 @@ bl_info = {
     "support": "COMMUNITY",
     "category": "Render",
 }
+
 import bpy
 
 def batch_render_menu(self, scene) :
@@ -54,15 +55,17 @@ class BTH_OT_GenerateBatchFile(bpy.types.Operator):
             
             
             #Generate project information to warn the user
-            information = [    "Renders information :",
-                                "Render engine : " + engine + " with " + str(samples) + " samples",
-                                "Render path : " + filepath,
-                                "Type of render : Animation",
-                                "FPS : " + str(fps),
-                                "File format : " + file_format + " (" + color_mode + ")" + ffmpeg_data,
-                                "Resolution : " + str(int(res_x*res_percent/100)) + " by " + str(int(res_y*res_percent/100)) + 
+            information = [     "echo ====== Scene information ======",
+                                "echo(",
+                                "echo(",
+                                "echo Scene Name: " + scn.name, 
+                                "echo Render engine : " + engine + " with " + str(samples) + " samples",
+                                "echo Render path : " + filepath,
+                                "echo FPS : " + str(fps),
+                                "echo File format : " + file_format + " (" + color_mode + ")" + ffmpeg_data,
+                                "echo Resolution : " + str(int(res_x*res_percent/100)) + " by " + str(int(res_y*res_percent/100)) + 
                                     " (" + str(res_percent) + " percent of " + str(res_x) + " by " + str(res_y) + ")",
-                                "Frame range : Start:" + str(frame_start) + " to End:" + str(frame_end)
+                                "echo Frame range : Start:" + str(frame_start) + " to End:" + str(frame_end)
                             ]
 
              
@@ -73,26 +76,33 @@ class BTH_OT_GenerateBatchFile(bpy.types.Operator):
             project_path = bpy.data.filepath
             render_option = "-a"                #Hard coded animation feature will add more here on future releases
             
-                        
+            #text for the batch script
+            notifications = [   "echo(",
+                                "echo(",
+                                "echo Please check the above information then press any key to start the renders",
+                                "echo If a parameter is wrong, do not press any key and close the console",
+                                "echo(",
+                                "echo(",
+                                "echo Tip: Please close the blender window for better performance",
+                                "echo(",
+                                "echo(",
+                                "pause",
+                                "echo(",
+                                "echo Thank you for using my Script!",
+                                "echo Rendering Now!",
+                                ]
+                                
+                                
+            #Get Project name            
             project_name = bpy.path.basename(bpy.data.filepath).split(".")[0]
                         
             #Generate the batch file 
             file = open(bpy.path.abspath("//") + "renderbatch_" + project_name + ".bat", "w")
-            
-            #Write the project status on the batch
+                                                        
+            # populate the text in the batch script
             file.write("@echo off\n")
-            file.write("color e\n")
             for info in information :
-                file.write("echo " + info + "\n")
-            
-            notifications = ["echo ========",
-                                "echo Please check the informations then press any key to start the renders",
-                                "echo If a parameter is wrong, do not press any key and close the console",
-                                "pause",
-                                "echo Thank you for using my Script!",
-                                "color 2",
-                                "echo Rendering Now!",
-                                "color",]
+                file.write(info + "\n")
             
             for n in notifications :
                 file.write(n + "\n")
