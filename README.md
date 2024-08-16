@@ -1,3 +1,6 @@
+Bored of typing complex commands in the command prompt?
+Well, this is the solution to it. 
+
 
 How to use?
 - Install it as an addon
