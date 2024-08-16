@@ -11,16 +11,12 @@ bl_info = {
     "support": "COMMUNITY",
     "category": "Render",
 }
-
-
 import bpy
-
 
 def batch_render_menu(self, scene) :
     layout = self.layout
     layout.separator()
     layout.operator("render.generate_batch_file", text="Generate render batch file")
-
 
 class BTH_OT_GenerateBatchFile(bpy.types.Operator):
     """Tooltip"""
@@ -71,21 +67,19 @@ class BTH_OT_GenerateBatchFile(bpy.types.Operator):
 
              
     
-            #Cmmmand line parameters
+            #Cmmmand line parameters these aren't necessary to be honest
             b_path = bpy.app.binary_path
             bg_command = "-b"
             project_path = bpy.data.filepath
-            render_option = "-a"                #Hard coded animation feature
+            render_option = "-a"                #Hard coded animation feature will add more here on future releases
             
-            #Get files/drirectory info
-            
+                        
             project_name = bpy.path.basename(bpy.data.filepath).split(".")[0]
-            
-            
-            #Generate the batch file and save it there
+                        
+            #Generate the batch file 
             file = open(bpy.path.abspath("//") + "renderbatch_" + project_name + ".bat", "w")
             
-            #Write the project statut on the batch
+            #Write the project status on the batch
             file.write("@echo off\n")
             file.write("color e\n")
             for info in information :
